@@ -24,6 +24,22 @@ app = Flask(__name__)
 def index():
     return render_template('index.html.jinja')
 
+@app.route('/boba/<drink_name>')
+def boba(drink_name):
+    boba_dict = {
+        'mango-matcha': {
+            'name': 'Mango Matcha',
+            'ice_level': 70,
+            'sugar_level': 50,
+            'rating': 97,
+            'toppings': ['Boba', 'Egg Pudding'],
+            'image': '/static/images/boba/mango-matcha.jpg'
+        }
+    }
+
+    context = boba_dict['mango-matcha']
+    return render_template('boba.html.jinja', **context)
+
 
 def main(args):
 

@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<head>
+  <title>{{ name }}</title>
+  <!-- Latest compiled and minified CSS -->
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css">
+
+  <!-- jQuery library -->
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+
+  <!-- Popper JS -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"></script>
+
+  <!-- Latest compiled JavaScript -->
+  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"></script>
+
+  <!-- Mobile First -->
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+  <!-- Project Stylesheet -->
+  <link rel="stylesheet" href="/static/css/stylesheet.css">
+  <link rel="icon" href="/static/images/boba-icon.png">
+</head>
+<body>
+  <div class="container">
+    <div class="card my-3 mx-auto" style="width: 18rem;">
+      <img class="card-img-top" src="{{ image }}" alt="Boba Image">
+      <div class="card-body">
+        <h5 class="card-title">{{ name }}</h5>
+      </div>
+      <ul class="list-group list-group-flush">
+        <li class="list-group-item p-0"><div class="border-right border-grey px-2 mr-2 d-inline-block" style="padding: 12px 20px; width: 30%;">Rating</div><div class="d-inline" style="padding: 12px 20px;">{{ rating }}%</div></li>
+        <li class="list-group-item p-0"><div class="border-right border-grey px-2 mr-2 d-inline-block" style="padding: 12px 20px; width: 30%;">Ice</div><div class="d-inline" style="padding: 12px 20px;">{{ ice_level }}%</div></li>
+        <li class="list-group-item p-0"><div class="border-right border-grey px-2 mr-2 d-inline-block" style="padding: 12px 20px; width: 30%;">Sugar</div><div class="d-inline" style="padding: 12px 20px;">{{ sugar_level }}%</div></li>
+      </ul>
+      <div class="card-header">
+        Toppings
+      </div>
+      <ul class="list-group list-group-flush">
+        {% for topping in toppings %}
+          <li class="list-group-item">{{ topping }}</li>
+        {% endfor %}
+      </ul>
+      <div class="card-body">
+        <div class="mb-3">
+          <img class="img-thumbnail w-25" src="/static/images/door-dash-icon.png" alt="Door Dash Icon">
+          <a href="https://www.doordash.com/store/happy-lemon-sunnyvale-824120/" class="card-link">Buy with DoorDash</a>
+        </div>
+        <div class="mb-3">
+          <img class="img-thumbnail w-25" src="/static/images/uber-eats-icon.png" alt="Uber Eats Icon">
+          <a href="https://www.ubereats.com/en-US/san-francisco/food-delivery/chick-and-tea-sunnyvale/Kvi__FRoRcquNH06W2NwUQ/" class="card-link">Buy with Uber Eats</a>
+        </div>
+      </div>
+      </div>
+  </div>
+
+</body>
