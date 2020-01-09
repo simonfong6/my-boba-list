@@ -22,7 +22,7 @@ app = Flask(__name__)
 
 @app.route('/')
 def index():
-    return render_template('index.jinja')
+    return render_template('index.html.jinja')
 
 
 def main(args):
