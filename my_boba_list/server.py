@@ -82,25 +82,30 @@ def boba(drink_name):
     return render_template('boba.html.jinja', **context)
 
 
-@app.route('/create')
+@app.route('/create', methods=['GET', 'POST'])
 def create_drink():
-    drink = {
-        'name': 'Mango Matcha',
-        'ice_level': 70,
-        'sugar_level': 50,
-        'rating': 97,
-        'toppings': ['Boba', 'Egg Pudding'],
-        'image': '/static/images/boba/mango-matcha.jpg'
-    }
+    if request.method == 'GET':
+        return render_template('create-boba-form.html.jinja')
+    elif request.method == 'POST':
 
-    db = get_db()
+        drink = {
+            'name': 'Mango Matcha',
+            'ice_level': 70,
+            'sugar_level': 50,
+            'rating': 97,
+            'toppings': ['Boba', 'Egg Pudding'],
+            'image': '/static/images/boba/mango-matcha.jpg'
+        }
 
-    drinks_collection = db['drinks']
+        db = get_db()
 
-    drink_id = drinks_collection.insert_one(drink).inserted_id
+        drinks_collection = db['drinks']
+
+        # drink_id = drinks_collection.insert_one(drink).inserted_id
+        drink_id = 'blah'
 
 
-    return f"I created a drink with id = {drink_id}!"
+        return f"I created a drink with id = {drink_id}!"
 
 
 def main(args):
