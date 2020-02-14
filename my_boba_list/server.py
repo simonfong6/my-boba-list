@@ -82,11 +82,13 @@ def boba(drink_name):
     return render_template('boba.html.jinja', **context)
 
 
-@app.route('/create', methods=['GET', 'POST'])
+@app.route('/drinks/create', methods=['GET', 'POST'])
 def create_drink():
     if request.method == 'GET':
         return render_template('create-boba-form.html.jinja')
     elif request.method == 'POST':
+
+        logger.info(request.form)
 
         drink = {
             'name': 'Mango Matcha',
