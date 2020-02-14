@@ -82,8 +82,25 @@ def boba(drink_name):
     return render_template('boba.html.jinja', **context)
 
 
+@app.route('/create')
 def create_drink():
-    return "I created a drink!"
+    drink = {
+        'name': 'Mango Matcha',
+        'ice_level': 70,
+        'sugar_level': 50,
+        'rating': 97,
+        'toppings': ['Boba', 'Egg Pudding'],
+        'image': '/static/images/boba/mango-matcha.jpg'
+    }
+
+    db = get_db()
+
+    drinks_collection = db['drinks']
+
+    drink_id = drinks_collection.insert_one(drink).inserted_id
+
+
+    return f"I created a drink with id = {drink_id}!"
 
 
 def main(args):
