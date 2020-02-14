@@ -58,6 +58,10 @@ if __name__ == '__main__':
                         help="Port that the server will run on.",
                         type=int,
                         default=3034)
+    parser.add_argument('--credential_path',
+                        help="Credential path, defaults to `credentials.json`",
+                        type=str,
+                        required=True)
     parser.add_argument('-d', '--debug',
                         help="Whether or not to run in debug mode.",
                         default=False,
