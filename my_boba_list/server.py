@@ -2,14 +2,18 @@
 """
 Backend for mybobalist.
 """
+import json
 import logging
 
 from flask import Flask
+from flask import g
 from flask import redirect
 from flask import render_template
 from flask import request
 from flask import send_from_directory
 from flask import url_for
+
+from pymongo import MongoClient
 
 # Configure logging.
 logging.basicConfig(filename='logs/server.log')
@@ -18,6 +22,43 @@ logger.setLevel(logging.INFO)
 
 
 app = Flask(__name__)
+
+def get_connection_string(credential_path):
+    """Converts credentials JSON to a connection string."""
+
+    with open(credential_path) as file_ptr:
+        credential_dict = json.load(file_ptr)
+
+    connection_string = credential_dict['connection_string']
+
+    full_connection_string = connection_string.format(
+        user=credential_dict['user'],
+        password=credential_dict['password']
+    )
+
+    return full_connection_string
+
+
+def connect_db():
+    """Connects to the signinucsd database on mlab servers."""
+    db_connection = MongoClient(app.config['DATABASE_CONNECTION_STRING'])
+    return db_connection
+
+
+def get_db():
+    """Opens a new database connection if there is none yet for the
+    current application context.
+    """
+    if not hasattr(g, 'dbConnection'):
+        g.dbConnection = connect_db()
+    return g.dbConnection[app.config['DATABASE_NAME']]
+
+
+@app.teardown_appcontext
+def close_db(error):
+    """Closes the database again at the end of the request."""
+    if hasattr(g, 'dbConnection'):
+        g.dbConnection.close()
 
 
 @app.route('/')
@@ -41,7 +82,19 @@ def boba(drink_name):
     return render_template('boba.html.jinja', **context)
 
 
+def create_drink():
+    return "I created a drink!"
+
+
 def main(args):
+
+    database_connection_string = get_connection_string(args.credential_path)
+
+    # Load default config and override config from an environment variable
+    app.config.update(dict(
+        DATABASE_CONNECTION_STRING=database_connection_string,
+        DATABASE_NAME="my-boba-list-db"
+    ))
 
     app.run(
         host='0.0.0.0',
