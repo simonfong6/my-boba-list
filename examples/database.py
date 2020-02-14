@@ -1,6 +1,11 @@
 #!/usr/bin/env python3
 """
 MongoDB Database Access Example
+
+Usage:
+    ```
+    python3 database.py --credential_path ../credentials/credentials.json
+    ```
 """
 import datetime
 import json
