@@ -88,7 +88,7 @@ def create_drink():
         return render_template('create-boba-form.html.jinja')
     elif request.method == 'POST':
 
-        logger.info(request.form)
+        logger.info(dict(request.form))
 
         drink = {
             'name': 'Mango Matcha',
@@ -119,6 +119,9 @@ def main(args):
         DATABASE_CONNECTION_STRING=database_connection_string,
         DATABASE_NAME="my-boba-list-db"
     ))
+
+    if args.debug:
+        logger.setLevel(logging.DEBUG)
 
     app.run(
         host='0.0.0.0',
