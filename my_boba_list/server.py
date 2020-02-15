@@ -118,6 +118,20 @@ def get_first_element(drink_form):
 
     return new_dict
 
+
+def array_toppings(drink_form):
+    ARRAY = set(['toppings'])
+    new_dict = {}
+
+    for key, val in drink_form.items():
+        if key in ARRAY:
+            new_dict[key] = [val]
+        else:
+            new_dict[key] = val
+
+    return new_dict
+
+
 @app.route('/drinks/create', methods=['GET', 'POST'])
 def create_drink():
     if request.method == 'GET':
@@ -128,9 +142,10 @@ def create_drink():
 
         drink_form = dict(request.form)
 
-        drink_form_dearrayed = get_first_element(drink_form)
+        # drink_form_dearrayed = get_first_element(drink_form)
+        drink_form_arrayed = array_toppings(drink_form)
 
-        drink = drink_form_to_db_schema(drink_form_dearrayed)
+        drink = drink_form_to_db_schema(drink_form_arrayed)
 
         logger.info(json.dumps(drink, indent=4))
 
@@ -141,7 +156,7 @@ def create_drink():
         drink_id = drinks_collection.insert_one(drink).inserted_id
 
 
-        return f"I created a drink with id = {drink_id}!"
+        return redirect(url_for('view_drinks', drink_name='all'))
 
 
 @app.route('/drinks/view/<drink_name>')
