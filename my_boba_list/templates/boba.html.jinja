@@ -24,37 +24,41 @@
   <div class="container">
     <h1>All Drinks</h1>
     <div class="card-deck">
-      {% for drink in drinks %}
-      <div class="card my-3 mx-auto" style="width: 18rem;">
-        <img class="card-img-top" src="{{ drink['image'] }}" alt="Boba Image">
-        <div class="card-body">
-          <h5 class="card-title">{{ drink['name'] }}</h5>
-        </div>
-        <ul class="list-group list-group-flush">
-          <li class="list-group-item p-0"><div class="border-right border-grey px-2 mr-2 d-inline-block" style="padding: 12px 20px; width: 30%;">Rating</div><div class="d-inline" style="padding: 12px 20px;">{{ drink['rating'] }}%</div></li>
-          <li class="list-group-item p-0"><div class="border-right border-grey px-2 mr-2 d-inline-block" style="padding: 12px 20px; width: 30%;">Ice</div><div class="d-inline" style="padding: 12px 20px;">{{ drink['ice_level'] }}%</div></li>
-          <li class="list-group-item p-0"><div class="border-right border-grey px-2 mr-2 d-inline-block" style="padding: 12px 20px; width: 30%;">Sugar</div><div class="d-inline" style="padding: 12px 20px;">{{ drink['sugar_level'] }}%</div></li>
-        </ul>
-        <div class="card-header">
-          Toppings
-        </div>
-        <ul class="list-group list-group-flush">
-          {% for topping in drink['toppings'] %}
-            <li class="list-group-item">{{ topping }}</li>
-          {% endfor %}
-        </ul>
-        <div class="card-body">
-          <div class="mb-3">
-            <img class="img-thumbnail w-25" src="/static/images/door-dash-icon.png" alt="Door Dash Icon">
-            <a href="https://www.doordash.com/store/happy-lemon-sunnyvale-824120/" class="card-link">Buy with DoorDash</a>
+      <div class="row">
+        {% for drink in drinks %}
+        <div class="col-sm-6">
+          <div class="card my-3 mx-auto" style="width: 18rem;">
+            <img class="card-img-top" src="{{ drink['image'] }}" alt="Boba Image">
+            <div class="card-body">
+              <h5 class="card-title">{{ drink['name'] }}</h5>
+            </div>
+            <ul class="list-group list-group-flush">
+              <li class="list-group-item p-0"><div class="border-right border-grey px-2 mr-2 d-inline-block" style="padding: 12px 20px; width: 30%;">Rating</div><div class="d-inline" style="padding: 12px 20px;">{{ drink['rating'] }}%</div></li>
+              <li class="list-group-item p-0"><div class="border-right border-grey px-2 mr-2 d-inline-block" style="padding: 12px 20px; width: 30%;">Ice</div><div class="d-inline" style="padding: 12px 20px;">{{ drink['ice_level'] }}%</div></li>
+              <li class="list-group-item p-0"><div class="border-right border-grey px-2 mr-2 d-inline-block" style="padding: 12px 20px; width: 30%;">Sugar</div><div class="d-inline" style="padding: 12px 20px;">{{ drink['sugar_level'] }}%</div></li>
+            </ul>
+            <div class="card-header">
+              Toppings
+            </div>
+            <ul class="list-group list-group-flush">
+              {% for topping in drink['toppings'] %}
+                <li class="list-group-item">{{ topping }}</li>
+              {% endfor %}
+            </ul>
+            <div class="card-body">
+              <div class="mb-3">
+                <img class="img-thumbnail w-25" src="/static/images/door-dash-icon.png" alt="Door Dash Icon">
+                <a href="https://www.doordash.com/store/happy-lemon-sunnyvale-824120/" class="card-link">Buy with DoorDash</a>
+              </div>
+              <div class="mb-3">
+                <img class="img-thumbnail w-25" src="/static/images/uber-eats-icon.png" alt="Uber Eats Icon">
+                <a href="https://www.ubereats.com/en-US/san-francisco/food-delivery/chick-and-tea-sunnyvale/Kvi__FRoRcquNH06W2NwUQ/" class="card-link">Buy with Uber Eats</a>
+              </div>
+            </div>
           </div>
-          <div class="mb-3">
-            <img class="img-thumbnail w-25" src="/static/images/uber-eats-icon.png" alt="Uber Eats Icon">
-            <a href="https://www.ubereats.com/en-US/san-francisco/food-delivery/chick-and-tea-sunnyvale/Kvi__FRoRcquNH06W2NwUQ/" class="card-link">Buy with Uber Eats</a>
-          </div>
         </div>
+        {% endfor %}
       </div>
-      {% endfor %}
     </div>
   </div>
 
