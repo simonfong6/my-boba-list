@@ -13,6 +13,7 @@ from flask import request
 from flask import send_from_directory
 from flask import url_for
 
+from bson.json_util import dumps
 from pymongo import MongoClient
 
 # Configure logging.
@@ -141,6 +142,21 @@ def create_drink():
 
 
         return f"I created a drink with id = {drink_id}!"
+
+
+@app.route('/drinks/view/<drink_name>')
+def view_drinks(drink_name):
+    db = get_db()
+
+    drinks_collection = db['drinks']
+    if drink_name == 'all':
+        all_drinks = []
+        for drink in drinks_collection.find(): 
+            drink_dict = dict(drink)
+            all_drinks.append(drink_dict)
+            print(dumps(drink_dict, indent=4))
+
+        return dumps(all_drinks, indent=4)
 
 
 def main(args):
