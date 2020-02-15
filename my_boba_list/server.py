@@ -81,6 +81,41 @@ def boba(drink_name):
     context = boba_dict['mango-matcha']
     return render_template('boba.html.jinja', **context)
 
+def drink_form_to_db_schema(drink_form):
+    SCHEMA_KEYS_TO_FORM_KEYS = {
+        'name': 'drink-name',
+        'size': 'size',
+        'ice_level': 'ice-level',
+        'sugar_level': 'sugar-level',
+        'toppings': 'toppings'
+    }
+
+    schema_object = {
+        'name': 'Mango Matcha',
+        'size': 'Large',
+        'ice_level': 70,
+        'sugar_level': 50,
+        'rating': 97,
+        'toppings': ['Boba', 'Egg Pudding'],
+        'image': '/static/images/boba/mango-matcha.jpg'
+    }
+
+    for schema_key, form_key in SCHEMA_KEYS_TO_FORM_KEYS.items():
+        schema_object[schema_key] = drink_form[form_key]
+
+    return schema_object
+
+def get_first_element(drink_form):
+    DEARRAY = set(['drink-name', 'size', 'ice-level', 'sugar-level'])
+    new_dict = {}
+
+    for key, val in drink_form.items():
+        if key in DEARRAY:
+            new_dict[key] = val[0]
+        else:
+            new_dict[key] = val
+
+    return new_dict
 
 @app.route('/drinks/create', methods=['GET', 'POST'])
 def create_drink():
@@ -88,23 +123,21 @@ def create_drink():
         return render_template('create-boba-form.html.jinja')
     elif request.method == 'POST':
 
-        logger.info(dict(request.form))
+        logger.info(json.dumps(dict(request.form), indent=4))
 
-        drink = {
-            'name': 'Mango Matcha',
-            'ice_level': 70,
-            'sugar_level': 50,
-            'rating': 97,
-            'toppings': ['Boba', 'Egg Pudding'],
-            'image': '/static/images/boba/mango-matcha.jpg'
-        }
+        drink_form = dict(request.form)
+
+        drink_form_dearrayed = get_first_element(drink_form)
+
+        drink = drink_form_to_db_schema(drink_form_dearrayed)
+
+        logger.info(json.dumps(drink, indent=4))
 
         db = get_db()
 
         drinks_collection = db['drinks']
 
-        # drink_id = drinks_collection.insert_one(drink).inserted_id
-        drink_id = 'blah'
+        drink_id = drinks_collection.insert_one(drink).inserted_id
 
 
         return f"I created a drink with id = {drink_id}!"

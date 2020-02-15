@@ -29,48 +29,52 @@
     <form action="/drinks/create" method="post">
       <div class="form-row">
         <div class="form-group col-md-6">
-          <label for="inputEmail4">Email</label>
-          <input name="email" type="email" class="form-control" id="inputEmail4" placeholder="Email">
+          <label for="drinkName">Drink Name</label>
+          <input name="drink-name" type="text" required class="form-control" id="drinkName" placeholder="Drink Name">
         </div>
-        <div class="form-group col-md-6">
-          <label for="inputPassword4">Password</label>
-          <input type="password" class="form-control" id="inputPassword4" placeholder="Password">
-        </div>
-      </div>
-      <div class="form-group">
-        <label for="inputAddress">Address</label>
-        <input type="text" class="form-control" id="inputAddress" placeholder="1234 Main St">
-      </div>
-      <div class="form-group">
-        <label for="inputAddress2">Address 2</label>
-        <input type="text" class="form-control" id="inputAddress2" placeholder="Apartment, studio, or floor">
       </div>
       <div class="form-row">
         <div class="form-group col-md-6">
-          <label for="inputCity">City</label>
-          <input type="text" class="form-control" id="inputCity">
-        </div>
-        <div class="form-group col-md-4">
-          <label for="inputState">State</label>
-          <select id="inputState" class="form-control">
-            <option selected>Choose...</option>
-            <option>...</option>
+          <label for="inputSize">Size</label>
+          <select name="size" id="inputSize" class="form-control">
+            <option>Small</option>
+            <option selected>Large</option>
           </select>
         </div>
-        <div class="form-group col-md-2">
-          <label for="inputZip">Zip</label>
-          <input type="text" class="form-control" id="inputZip">
+      </div>
+      <div class="form-row">
+        <div class="form-group col-md-3">
+          <label for="inputIceLevel">Sugar Level</label>
+          <select name="ice-level" id="inputIceLevel" class="form-control">
+            <option selected value=100>100%</option>
+            <option value=70>70%</option>
+            <option value=50>50%</option>
+            <option value=30>30%</option>
+            <option value=0>0%</option>
+          </select>
+        </div>
+        <div class="form-group col-md-3">
+          <label for="inputSugarLevel">Ice Level</label>
+          <select name="sugar-level" id="inputSugarLevel" class="form-control">
+            <option selected value=100>100%</option>
+            <option value=70>70%</option>
+            <option value=50>50%</option>
+            <option value=30>30%</option>
+            <option value=0>0%</option>
+          </select>
         </div>
       </div>
-      <div class="form-group">
-        <div class="form-check">
-          <input class="form-check-input" type="checkbox" id="gridCheck">
-          <label class="form-check-label" for="gridCheck">
-            Check me out
-          </label>
+      <div class="form-row">
+        <div class="form-group col-md-6">
+          <label for="inputToppings">Toppings</label>
+          <select name="toppings" multiple id="inputToppings" class="form-control">
+            <option selected value="none">None</option>
+            <option value="boba_regular">Regular Boba</option>
+            <option value="boba_tiny">Tiny Boba</option>
+          </select>
         </div>
       </div>
-      <button type="submit" class="btn btn-primary">Sign in</button>
+      <button type="submit" class="btn btn-primary">Create</button>
     </form>
   </div>
 
