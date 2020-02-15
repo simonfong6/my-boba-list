@@ -79,8 +79,8 @@ def boba(drink_name):
         }
     }
 
-    context = boba_dict['mango-matcha']
-    return render_template('boba.html.jinja', **context)
+    drinks = [boba_dict['mango-matcha']]
+    return render_template('boba.html.jinja', drinks=drinks)
 
 def drink_form_to_db_schema(drink_form):
     SCHEMA_KEYS_TO_FORM_KEYS = {
@@ -154,7 +154,9 @@ def view_drinks(drink_name):
         for drink in drinks_collection.find(): 
             drink_dict = dict(drink)
             all_drinks.append(drink_dict)
-            print(dumps(drink_dict, indent=4))
+            logging.info(dumps(drink_dict, indent=4))
+
+        return render_template('boba.html.jinja', drinks=all_drinks)
 
         return dumps(all_drinks, indent=4)
 
