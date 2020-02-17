@@ -23,6 +23,20 @@ FILE_FORM_NAME = 'file'
 app = Flask(__name__)
 
 
+def generate_unique_filename(filename):
+    """Generates a unique filename with the correct extension."""
+
+    uuid_ = uuid.uuid4()
+
+    mime_type, _encoding = mimetypes.guess_type(filename)
+    extension = mimetypes.guess_extension(mime_type)
+    
+    unique_filename = f"{uuid_}{extension}"
+
+    return unique_filename
+
+
+
 @app.route('/upload')
 def upload_file_site():
     """Serves the upload page."""
@@ -39,12 +53,7 @@ def upload_file():
         # Generate filename.
         filename_from_user = file_to_upload.filename
         mime_type, _encoding = mimetypes.guess_type(filename_from_user)
-        extension = mimetypes.guess_extension(mime_type)
-
-        print(f"Guessed extension {extension}")
-        uuid_ = uuid.uuid4()
-        filename = f"{uuid_}{extension}"
-        print(f"Unique filename {filename}")
+        filename = generate_unique_filename(filename_from_user)
         key = os.path.join(DIRECTORY, filename)
 
         # Upload to S3.
