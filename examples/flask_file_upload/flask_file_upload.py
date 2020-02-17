@@ -4,6 +4,7 @@ Python 3.8
 
 Combining Flask and AWS to upload files to S3.
 """
+import mimetypes
 import os
 import uuid
 
@@ -14,6 +15,11 @@ from flask import request
 from werkzeug.utils import secure_filename
 
 
+BUCKET_NAME = 'my-boba-list'
+DIRECTORY = 'test'
+FILE_FORM_NAME = 'file'
+
+
 app = Flask(__name__)
 
 
@@ -21,37 +27,40 @@ app = Flask(__name__)
 def upload_file_site():
     """Serves the upload page."""
     return render_template('upload.html')
-	
+
+
 @app.route('/uploader', methods = ['GET', 'POST'])
 def upload_file():
     """Handles the file upload from the form."""
     if request.method == 'POST':
-        f = request.files['file']
-        # f.save(secure_filename(f.filename))
-        import boto3
+        # Get file from form response.
+        file_to_upload = request.files[FILE_FORM_NAME]
 
-        # Let's use Amazon S3
+        # Generate filename.
+        filename_from_user = file_to_upload.filename
+        mime_type, _encoding = mimetypes.guess_type(filename_from_user)
+        extension = mimetypes.guess_extension(mime_type)
+
+        print(f"Guessed extension {extension}")
+        uuid_ = uuid.uuid4()
+        filename = f"{uuid_}{extension}"
+        print(f"Unique filename {filename}")
+        key = os.path.join(DIRECTORY, filename)
+
+        # Upload to S3.
+        bucket_name = BUCKET_NAME
         s3 = boto3.resource('s3')
-        data = f
-
-        uid = uuid.uuid4()
-        filename = f'{uid}.jpeg'
-        # Read binary file.
-        folder = 'test'
-        key = os.path.join(folder, filename)
-        bucket_name = 'my-boba-list'
-
-        # Upload file.
-        s3.Bucket(bucket_name).put_object(
+        bucket = s3.Bucket(bucket_name)
+        bucket.put_object(
             Key=key,
-            Body=data,
-            ContentType='image/jpg'         # Meta data so computers know what this is.
+            Body=file_to_upload,
+            ContentType=mime_type         # Meta data so computers know what this is.
         )
 
         print(f"Succesfully uploaded file as {key}")
         public_file_url = f"https://{bucket_name}.s3-us-west-2.amazonaws.com/{key}"
         print(f"You should be able to access this file at {public_file_url}")
-        return f'file uploaded successfully at <a href="{public_file_url}">{public_file_url}</a>'
+        return f'File uploaded successfully at <a href="{public_file_url}">{public_file_url}</a>'
 		
 if __name__ == '__main__':
     port = 3034
