@@ -4,21 +4,27 @@ Python 3.8
 
 Combining Flask and AWS to upload files to S3.
 """
-from flask import Flask, render_template, request
-from werkzeug.utils import secure_filename
-app = Flask(__name__)
-
 import os
+import uuid
 
 import boto3
-import uuid
+from flask import Flask, render_template, request
+from flask import render_template
+from flask import request
+from werkzeug.utils import secure_filename
+
+
+app = Flask(__name__)
+
 
 @app.route('/upload')
 def upload_file_site():
+    """Serves the upload page."""
     return render_template('upload.html')
 	
 @app.route('/uploader', methods = ['GET', 'POST'])
 def upload_file():
+    """Handles the file upload from the form."""
     if request.method == 'POST':
         f = request.files['file']
         # f.save(secure_filename(f.filename))
