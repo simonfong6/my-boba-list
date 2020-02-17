@@ -4,7 +4,7 @@ MongoDB Database Access Example
 
 Usage:
     ```
-    python3 database.py --credential_path ../credentials/credentials.json
+    python3 database.py --credential_path ../../credentials/credentials.json
     ```
 """
 import datetime
