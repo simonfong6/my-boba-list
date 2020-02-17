@@ -37,11 +37,15 @@ def upload_file():
         )
 
         print(f"Succesfully uploaded file as {key}")
-        print(f"You should be able to access this file at https://{bucket_name}.s3-us-west-2.amazonaws.com/{key}")
-        return 'file uploaded successfully'
+        public_file_url = f"https://{bucket_name}.s3-us-west-2.amazonaws.com/{key}"
+        print(f"You should be able to access this file at {public_file_url}")
+        return f'file uploaded successfully at <a href="{public_file_url}">{public_file_url}</a>'
 		
 if __name__ == '__main__':
+    port = 3034
+    site_url = f'http://localhost:{port}/upload'
+    print(f"Site starting at {site_url}")
     app.run(
         host='0.0.0.0',
-        port=3034,
+        port=port,
         debug=True)
