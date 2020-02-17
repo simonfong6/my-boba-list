@@ -62,8 +62,11 @@ def upload_file():
 
         # Generate filename.
         filename_from_user = file_to_upload.filename
-        mime_type, _encoding = mimetypes.guess_type(filename_from_user)
         filename = generate_unique_filename(filename_from_user)
+
+        # Extract the MIME type so that S3 knows what it is.
+        mime_type, _encoding = mimetypes.guess_type(filename_from_user)
+        
         key = os.path.join(DIRECTORY, filename)
 
         # Upload to S3.
