@@ -36,6 +36,16 @@ def generate_unique_filename(filename):
     return unique_filename
 
 
+def upload_to_s3(key, file_to_upload, mime_type, bucket_name=BUCKET_NAME):
+    """Uploads a file to S3."""
+    s3 = boto3.resource('s3')
+    bucket = s3.Bucket(bucket_name)
+    bucket.put_object(
+        Key=key,
+        Body=file_to_upload,
+        ContentType=mime_type
+    )
+
 
 @app.route('/upload')
 def upload_file_site():
@@ -57,17 +67,10 @@ def upload_file():
         key = os.path.join(DIRECTORY, filename)
 
         # Upload to S3.
-        bucket_name = BUCKET_NAME
-        s3 = boto3.resource('s3')
-        bucket = s3.Bucket(bucket_name)
-        bucket.put_object(
-            Key=key,
-            Body=file_to_upload,
-            ContentType=mime_type         # Meta data so computers know what this is.
-        )
+        upload_to_s3(key, file_to_upload, mime_type)
 
         print(f"Succesfully uploaded file as {key}")
-        public_file_url = f"https://{bucket_name}.s3-us-west-2.amazonaws.com/{key}"
+        public_file_url = f"https://{BUCKET_NAME}.s3-us-west-2.amazonaws.com/{key}"
         print(f"You should be able to access this file at {public_file_url}")
         return f'File uploaded successfully at <a href="{public_file_url}">{public_file_url}</a>'
 		
