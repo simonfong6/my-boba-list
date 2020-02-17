@@ -1,3 +1,9 @@
+#!/usr/bin/env python3
+"""
+Python 3.8
+
+Combining Flask and AWS to upload files to S3.
+"""
 from flask import Flask, render_template, request
 from werkzeug.utils import secure_filename
 app = Flask(__name__)
